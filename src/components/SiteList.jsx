@@ -17,7 +17,7 @@ function filterSites(sites, query) {
 }
 
 const SiteList = props => (
-  <div style={Object.assign({}, styles.container, props.isLoading && styles.hidden)}>
+  <div style={Object.assign({}, styles.container, props.isWaiting && styles.hidden)}>
     <Search
       placeholder='Search sites'
       onChange={props.onSearch}

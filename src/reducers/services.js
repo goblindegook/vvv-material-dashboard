@@ -1,30 +1,30 @@
 import Immutable from 'immutable'
-import { ActionTypes } from '../actions/status'
+import { ActionTypes } from '../actions/services'
 
 const initialState = Immutable.fromJS({
-  isLoading: false,
+  isWaiting: false,
   services: {},
 })
 
-function status(state = initialState, action) {
+function services(state = initialState, action) {
 
   switch (action.type) {
 
     case ActionTypes.REQUEST_STATUS:
       return state.merge({
-        isLoading: true,
+        isWaiting: true,
       })
 
     case ActionTypes.RECEIVE_STATUS:
       return state.mergeDeep({
         ...action.payload,
-        isLoading: false,
+        isWaiting: false,
       })
 
     case ActionTypes.RECEIVE_STATUS_ERROR:
       return state.merge({
         ...action.payload,
-        isLoading: false,
+        isWaiting: false,
       })
 
     default:
@@ -32,4 +32,4 @@ function status(state = initialState, action) {
   }
 }
 
-export default status
+export default services

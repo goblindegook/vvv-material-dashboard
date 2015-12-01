@@ -2,7 +2,7 @@
 
 namespace goblindegook\VVV\API;
 
-class Status extends Base {
+class Services extends Base {
 
   private $_services = [
     'memcached' => [
@@ -93,6 +93,16 @@ class Status extends Base {
     }
 
     echo json_encode($response);
+  }
+
+  /**
+   * [options description]
+   * @param  string $handle [description]
+   * @param  string $status [description]
+   * @return [type]         [description]
+   */
+  public function options($handle = '', $status = '') {
+    $this->app->response()->header('Access-Control-Allow-Methods', 'GET,PUT');
   }
 
   /**

@@ -9,7 +9,7 @@ import Theme from '../theme'
 const Sites = React.createClass({
 
   propTypes: {
-    isLoading: PropTypes.bool,
+    isWaiting: PropTypes.bool,
     query:     PropTypes.string,
     sites:     PropTypes.arrayOf(PropTypes.object),
   },
@@ -36,7 +36,7 @@ const Sites = React.createClass({
 })
 
 const selector = state => Object.assign({},
-  state.status.toJS(),
+  state.services.toJS(),
   state.sites.toJS()
 )
 

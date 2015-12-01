@@ -2,21 +2,28 @@ import React from 'react'
 import { render } from 'react-dom'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import { ListItem, Toggle } from 'material-ui'
+import * as ServiceActions from '../actions/services'
 
 const Service = props => (
   <ListItem
-    rightToggle={<Toggle name={props.key} defaultToggled={props.enabled} disabled={props.locked} />}
     primaryText={props.name}
+    rightToggle={<Toggle
+      name={props.handle}
+      defaultToggled={props.enabled}
+      disabled={props.locked}
+      onToggle={props.onToggle}
+    />}
   />
 )
 
 Service.mixins = [PureRenderMixin]
 
 Service.propTypes = {
-  key:     React.PropTypes.string,
-  name:    React.PropTypes.string,
-  enabled: React.PropTypes.bool,
-  locked:  React.PropTypes.bool,
+  handle:   React.PropTypes.string,
+  name:     React.PropTypes.string,
+  enabled:  React.PropTypes.bool,
+  locked:   React.PropTypes.bool,
+  onToggle: React.PropTypes.func,
 }
 
 export default Service

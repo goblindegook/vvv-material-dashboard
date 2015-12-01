@@ -20,11 +20,12 @@ $app->get('/', function () {
   die();
 });
 
-$sites  = new \goblindegook\VVV\API\Sites($app);
-$status = new \goblindegook\VVV\API\Status($app);
+$sites    = new API\Sites($app);
+$services = new API\Services($app);
 
-$app->get('/api/v1/sites',                  $addHeaders, [$sites, 'get']);
-$app->get('/api/v1/status(/:handle)',       $addHeaders, [$status, 'get']);
-$app->put('/api/v1/status/:handle/:status', $addHeaders, [$status, 'set']);
+$app->get('/api/v1/sites',                        $addHeaders, [$sites, 'get']);
+$app->get('/api/v1/services(/:handle)',           $addHeaders, [$services, 'get']);
+$app->put('/api/v1/services/:handle/:status',     $addHeaders, [$services, 'set']);
+$app->options('/api/v1/services/:handle/:status', $addHeaders, [$services, 'options']);
 
 $app->run();

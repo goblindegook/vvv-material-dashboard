@@ -8,9 +8,11 @@ const ServiceList = props => (
     {Object.keys(props.services).map(key => (
       <Service
         key={key}
+        handle={key}
         name={props.services[key].name}
         enabled={props.services[key].enabled}
         locked={props.services[key].locked}
+        onToggle={props.onToggle}
       />
     ))}
   </List>

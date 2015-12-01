@@ -10,7 +10,7 @@ import SiteList from '../components/SiteList'
 import Tools from '../components/Tools'
 import ServiceList from '../components/ServiceList'
 import * as SiteActions from '../actions/sites'
-import * as StatusActions from '../actions/status'
+import * as ServiceActions from '../actions/services'
 import Theme from '../theme'
 
 const {
@@ -41,10 +41,10 @@ const App = React.createClass({
   },
 
   componentDidMount() {
-    this.props.dispatch(StatusActions.fetchStatus())
+    this.props.dispatch(ServiceActions.getStatus())
 
     this.setInterval(() => {
-      this.props.dispatch(StatusActions.fetchStatus())
+      this.props.dispatch(ServiceActions.getStatus())
     }, 30000)
   },
 
@@ -79,7 +79,12 @@ const App = React.createClass({
           </section>
           <aside style={styles.sidebar}>
             <Tools />
-            <ServiceList services={this.props.services} />
+            <ServiceList
+              services={this.props.services}
+              onToggle={(event, toggled) => {
+                this.props.dispatch(ServiceActions.setStatus(event.target.name, toggled ? 'on' : 'off'))
+              }}
+            />
           </aside>
         </div>
       </AppCanvas>
@@ -117,7 +122,7 @@ const styles = {
 }
 
 const selector = state => Object.assign({},
-  state.status.toJS(),
+  state.services.toJS(),
   state.sites.toJS()
 )
 

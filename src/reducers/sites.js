@@ -2,7 +2,7 @@ import Immutable from 'immutable'
 import { ActionTypes } from '../actions/sites'
 
 const initialState = Immutable.fromJS({
-  isLoading: false,
+  isWaiting: false,
   query:     null,
   sites:     [],
 })
@@ -13,20 +13,20 @@ function sites(state = initialState, action) {
 
     case ActionTypes.REQUEST_SITES:
       return state.merge({
-        isLoading: true,
+        isWaiting: true,
         sites:     [],
       })
 
     case ActionTypes.RECEIVE_SITES:
       return state.merge({
         ...action.payload,
-        isLoading: false,
+        isWaiting: false,
       })
 
     case ActionTypes.RECEIVE_SITES_ERROR:
       return state.merge({
         ...action.payload,
-        isLoading: false,
+        isWaiting: false,
         sites:     [],
       })
 
