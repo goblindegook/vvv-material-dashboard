@@ -3,11 +3,7 @@ import { ActionTypes } from '../actions/status'
 
 const initialState = Immutable.fromJS({
   isLoading: false,
-  services: {
-    xdebug: {
-      enabled: false,
-    },
-  },
+  services: {},
 })
 
 function status(state = initialState, action) {

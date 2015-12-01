@@ -27,7 +27,7 @@ const Sites = React.createClass({
       <div>
         <LoadingIndicator {...this.props} />
         <SiteList {...this.props}
-          xdebug={this.props.services.xdebug.enabled}
+          xdebug={this.props.services.xdebug && this.props.services.xdebug.enabled}
           onSearch={event => this.props.dispatch(SiteActions.searchSites(event.target.value))}
         />
       </div>
