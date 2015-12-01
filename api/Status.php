@@ -45,19 +45,19 @@ class Status extends Base {
   private $_ssh;
 
   /**
-   * GET /status(/:service)
-   * @param  string $service [description]
+   * GET /status(/:handle)
+   * @param  string $handle [description]
    * @return array           [description]
    */
-  public function get($service = '') {
+  public function get($handle = '') {
     $response = [];
 
     try {
       $this->_connect();
 
-      foreach (array_keys($this->_services) as $handle) {
-        if (empty($service) || $service === $handle) {
-          $response[$handle] = $this->_getServiceStatus($handle);
+      foreach (array_keys($this->_services) as $service) {
+        if (empty($handle) || $handle === $service) {
+          $response[$service] = $this->_getServiceStatus($service);
         }
       }
 
@@ -71,16 +71,16 @@ class Status extends Base {
 
   /**
    * PUT /status/:service/:status
-   * @param string $service [description]
-   * @param string $status  [description]
+   * @param string $handle [description]
+   * @param string $status [description]
    */
-  public function set($service = '', $status = '') {
+  public function set($handle = '', $status = '') {
     $response = [];
 
     try {
       $this->_connect();
 
-      // TODO: Set service status
+      $response[$handle] = $this->_setServiceStatus($handle, $status);
 
     } catch (\Exception $e) {
       $this->app->response->setStatus($e->getCode());
@@ -111,6 +111,8 @@ class Status extends Base {
       throw new \Exception('not found', 404);
     }
 
+    // TODO: Check return code.
+
     $service = $this->_services[$handle];
     $output  = $this->_ssh->exec($service['status']);
     $enabled = (bool) preg_match($service['pattern'], $output);
@@ -130,12 +132,20 @@ class Status extends Base {
    */
   private function _setServiceStatus($handle, $status) {
 
+    $status = strtolower($status);
+
+    if (!in_array($status, ['on', 'off'])) {
+      throw new \Exception('status must be "on" or "off"', 400);
+    }
+
     if (empty($this->_services[$handle])) {
       throw new \Exception('not found', 404);
     }
 
+    // TODO: Check return code.
+
     $service = $this->_services[$handle];
-    $enabled = strtolower($status) !== 'off';
+    $enabled = $status === 'on';
     $output  = $this->_ssh->exec($enabled ? $service['start'] : $service['stop']);
 
     return [

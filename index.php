@@ -23,8 +23,8 @@ $app->get('/', function () {
 $sites  = new \goblindegook\VVV\API\Sites($app);
 $status = new \goblindegook\VVV\API\Status($app);
 
-$app->get('/api/v1/sites',                   $addHeaders, [$sites, 'get']);
-$app->get('/api/v1/status(/:service)',       $addHeaders, [$status, 'get']);
-$app->put('/api/v1/status/:service/:status', $addHeaders, [$status, 'set']);
+$app->get('/api/v1/sites',                  $addHeaders, [$sites, 'get']);
+$app->get('/api/v1/status(/:handle)',       $addHeaders, [$status, 'get']);
+$app->put('/api/v1/status/:handle/:status', $addHeaders, [$status, 'set']);
 
 $app->run();
