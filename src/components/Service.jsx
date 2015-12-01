@@ -1,17 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-import MUI from 'material-ui'
-import SvgIcons from 'material-ui/lib/svg-icons'
-
-const {
-  ListItem,
-  Toggle,
-} = MUI
-
-const {
-  ActionBugReport,
-} = SvgIcons
+import { ListItem, Toggle } from 'material-ui'
 
 const Service = props => (
   <ListItem
