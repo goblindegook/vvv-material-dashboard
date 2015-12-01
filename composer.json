@@ -1,6 +1,7 @@
 {
     "require": {
-        "slim/slim": "~2.6"
+        "slim/slim": "~2.6",
+        "phpseclib/phpseclib": "^2.0"
     },
     "autoload": {
       "psr-4": {
