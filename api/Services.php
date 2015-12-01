@@ -40,8 +40,8 @@ class Services extends Base {
     'xdebug' => [
       'name'    => 'Xdebug',
       'status'  => 'php5query -s fpm -m xdebug',
-      'start'   => 'xdebug_on',
-      'stop'    => 'xdebug_off',
+      'start'   => 'sudo php5enmod xdebug',
+      'stop'    => 'sudo php5dismod xdebug',
       'pattern' => '/Enabled for fpm/',
       'locked'  => false,
     ],
