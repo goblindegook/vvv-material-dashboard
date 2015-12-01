@@ -5,12 +5,21 @@ namespace goblindegook\VVV\API;
 class Status extends Base {
 
   private $_services = [
+    'memcached' => [
+      'name'    => 'Memcached',
+      'status'  => 'sudo service memcached status',
+      'start'   => 'sudo service memcached start',
+      'stop'    => 'sudo service memcached stop',
+      'pattern' => '/is running/',
+      'locked'  => false,
+    ],
     'mysql' => [
       'name'    => 'MySQL',
       'status'  => 'sudo service mysql status',
       'start'   => 'sudo service mysql start',
       'stop'    => 'sudo service mysql stop',
       'pattern' => '/start\/running/',
+      'locked'  => false,
     ],
     'nginx' => [
       'name'    => 'Nginx',
@@ -18,13 +27,7 @@ class Status extends Base {
       'start'   => 'sudo service nginx start',
       'stop'    => 'sudo service nginx restart',
       'pattern' => '/is running/',
-    ],
-    'memcached' => [
-      'name'    => 'Memcached',
-      'status'  => 'sudo service memcached status',
-      'start'   => 'sudo service memcached start',
-      'stop'    => 'sudo service memcached stop',
-      'pattern' => '/is running/',
+      'locked'  => true,
     ],
     'php5-fpm' => [
       'name'    => 'PHP-FPM',
@@ -32,13 +35,15 @@ class Status extends Base {
       'start'   => 'sudo service php5-fpm start',
       'stop'    => 'sudo service php5-fpm restart',
       'pattern' => '/start\/running/',
+      'locked'  => true,
     ],
     'xdebug' => [
       'name'    => 'Xdebug',
-      'status'  => '/usr/sbin/php5query -s fpm -m xdebug',
+      'status'  => 'php5query -s fpm -m xdebug',
       'start'   => 'xdebug_on',
       'stop'    => 'xdebug_off',
       'pattern' => '/Enabled for fpm/',
+      'locked'  => false,
     ],
   ];
 
@@ -121,6 +126,7 @@ class Status extends Base {
       'name'    => $service['name'],
       'enabled' => $enabled,
       'message' => trim($output),
+      'locked'  => $service['locked'],
     ];
   }
 
@@ -152,6 +158,7 @@ class Status extends Base {
       'name'    => $service['name'],
       'enabled' => $enabled,
       'message' => trim($output),
+      'locked'  => $service['locked'],
     ];
   }
 

@@ -1,38 +1,23 @@
 import React, { PropTypes } from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-import MUI from 'material-ui'
-import SvgIcons from 'material-ui/lib/svg-icons'
-
-const {
-  List,
-  ListItem,
-} = MUI
-
-const {
-  ActionBugReport,
-} = SvgIcons
+import { List } from 'material-ui'
+import Service from './Service'
 
 const ServiceList = props => (
   <List subheader='Status'>
-    <ListItem
-      disabled={true}
-      leftIcon={<ActionBugReport style={props.services.xdebug.enabled ? styles.active : styles.inactive} />}
-      primaryText={props.services.xdebug.name}
-    />
+    {Object.keys(props.services).map(key => (
+      <Service
+        key={key}
+        name={props.services[key].name}
+        enabled={props.services[key].enabled}
+        locked={props.services[key].locked}
+      />
+    ))}
   </List>
 )
 
 ServiceList.mixins = [PureRenderMixin]
 
 ServiceList.propTypes = {}
-
-const styles = {
-  active: {
-    fill: '#0a0',
-  },
-  inactive: {
-    fill: '#a00',
-  },
-}
 
 export default ServiceList
