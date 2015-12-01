@@ -25,12 +25,13 @@ const About = React.createClass({
           <li><a href="https://github.com/matthew-andrews/isomorphic-fetch">Isomorphic Fetch</a></li>
           <li><a href="https://lodash.com/">lodash</a></li>
           <li><a href="http://www.material-ui.com/">Material UI</a></li>
-          <li><a href="http://www.slimframework.com/">Slim</a></li>
+          <li><a href="https://github.com/phpseclib/phpseclib">phpseclib</a></li>
           <li><a href="https://facebook.github.io/react/">React</a></li>
           <li><a href="https://github.com/helior/react-highlighter">React Highlighter</a></li>
           <li><a href="https://github.com/rackt/react-router">React Router</a></li>
           <li><a href="https://github.com/rackt/redux">Redux</a></li>
           <li><a href="https://github.com/gaearon/redux-thunk">Redux Thunk</a></li>
+          <li><a href="http://www.slimframework.com/">Slim</a></li>
         </ul>
       </Paper>
     )
