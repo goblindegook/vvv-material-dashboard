@@ -11,7 +11,7 @@ const Service = props => (
       name={props.handle}
       defaultToggled={props.enabled}
       disabled={props.locked}
-      onToggle={props.onToggle}
+      onToggle={props.onServiceToggle}
     />}
   />
 )
@@ -19,11 +19,11 @@ const Service = props => (
 Service.mixins = [PureRenderMixin]
 
 Service.propTypes = {
-  handle:   React.PropTypes.string,
-  name:     React.PropTypes.string,
-  enabled:  React.PropTypes.bool,
-  locked:   React.PropTypes.bool,
-  onToggle: React.PropTypes.func,
+  handle:          React.PropTypes.string,
+  name:            React.PropTypes.string,
+  enabled:         React.PropTypes.bool,
+  locked:          React.PropTypes.bool,
+  onServiceToggle: React.PropTypes.func,
 }
 
 export default Service

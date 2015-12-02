@@ -6,8 +6,13 @@ require __DIR__ . '/vendor/autoload.php';
 
 \Slim\Slim::registerAutoloader();
 
-$app = new \Slim\Slim();
+$app      = new \Slim\Slim();
+$sites    = new API\Sites($app);
+$services = new API\Services($app);
 
+/**
+ * Response header middleware.
+ */
 $addHeaders = function () use ($app) {
   $app->response()->header('Cache-Control', 'no-cache, must-revalidate');
   $app->response()->header('Expires', gmdate('D, d M Y H:i:s \G\M\T'));
@@ -20,12 +25,13 @@ $app->get('/', function () {
   die();
 });
 
-$sites    = new API\Sites($app);
-$services = new API\Services($app);
-
+// Sites
 $app->get('/api/v1/sites',                        $addHeaders, [$sites, 'get']);
-$app->get('/api/v1/services(/:handle)',           $addHeaders, [$services, 'get']);
-$app->put('/api/v1/services/:handle/:status',     $addHeaders, [$services, 'set']);
+
+// Services
+$app->options('/api/v1/services(/:handle)',       $addHeaders, [$services, 'options']);
 $app->options('/api/v1/services/:handle/:status', $addHeaders, [$services, 'options']);
+$app->get('/api/v1/services(/:handle)',           $addHeaders, [$services, 'get']);
+$app->put('/api/v1/services/:handle/:status',     $addHeaders, [$services, 'put']);
 
 $app->run();

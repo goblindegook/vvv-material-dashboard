@@ -81,7 +81,7 @@ const App = React.createClass({
             <Tools />
             <ServiceList
               services={this.props.services}
-              onToggle={(event, toggled) => {
+              onServiceToggle={(event, toggled) => {
                 this.props.dispatch(ServiceActions.setStatus(event.target.name, toggled ? 'on' : 'off'))
               }}
             />

@@ -11,7 +11,6 @@ class Services extends Base {
       'start'   => 'sudo service memcached start',
       'stop'    => 'sudo service memcached stop',
       'pattern' => '/is running/',
-      'locked'  => false,
     ],
     'mysql' => [
       'name'    => 'MySQL',
@@ -19,23 +18,16 @@ class Services extends Base {
       'start'   => 'sudo service mysql start',
       'stop'    => 'sudo service mysql stop',
       'pattern' => '/start\/running/',
-      'locked'  => false,
     ],
     'nginx' => [
       'name'    => 'Nginx',
       'status'  => 'sudo service nginx status',
-      'start'   => 'sudo service nginx start',
-      'stop'    => 'sudo service nginx restart',
       'pattern' => '/is running/',
-      'locked'  => true,
     ],
     'php5-fpm' => [
       'name'    => 'PHP-FPM',
       'status'  => 'sudo service php5-fpm status',
-      'start'   => 'sudo service php5-fpm start',
-      'stop'    => 'sudo service php5-fpm restart',
       'pattern' => '/start\/running/',
-      'locked'  => true,
     ],
     'xdebug' => [
       'name'    => 'Xdebug',
@@ -43,16 +35,30 @@ class Services extends Base {
       'start'   => 'sudo php5enmod xdebug',
       'stop'    => 'sudo php5dismod xdebug',
       'pattern' => '/Enabled for fpm/',
-      'locked'  => false,
     ],
   ];
 
   private $_ssh;
 
   /**
-   * GET /status(/:handle)
+   * OPTIONS /services(/:handle(/:status))
    * @param  string $handle [description]
-   * @return array           [description]
+   * @param  string $status [description]
+   */
+  public function options($handle = '', $status = '') {
+    $methods = ['GET'];
+
+    if (!empty($handle) && !empty($status)) {
+      $methods[] = 'PUT';
+    }
+
+    $this->app->response()->header('Access-Control-Allow-Methods', implode(',', $methods));
+  }
+
+  /**
+   * GET /services(/:handle)
+   * @param  string $handle Service handle.
+   * @return array          Service status.
    */
   public function get($handle = '') {
     $response = [];
@@ -75,11 +81,12 @@ class Services extends Base {
   }
 
   /**
-   * PUT /status/:service/:status
-   * @param string $handle [description]
-   * @param string $status [description]
+   * PUT /services/:service/:status
+   * @param string $handle Service handle.
+   * @param string $status Service status to set (either 'on' or 'off').
+   * @return array         New service status.
    */
-  public function set($handle = '', $status = '') {
+  public function put($handle = '', $status = '') {
     $response = [];
 
     try {
@@ -93,16 +100,6 @@ class Services extends Base {
     }
 
     echo json_encode($response);
-  }
-
-  /**
-   * [options description]
-   * @param  string $handle [description]
-   * @param  string $status [description]
-   * @return [type]         [description]
-   */
-  public function options($handle = '', $status = '') {
-    $this->app->response()->header('Access-Control-Allow-Methods', 'GET,PUT');
   }
 
   /**
@@ -136,7 +133,7 @@ class Services extends Base {
       'name'    => $service['name'],
       'enabled' => $enabled,
       'message' => trim($output),
-      'locked'  => $service['locked'],
+      'locked'  => empty($service['start']) || empty($service['stop']),
     ];
   }
 
@@ -168,7 +165,7 @@ class Services extends Base {
       'name'    => $service['name'],
       'enabled' => $enabled,
       'message' => trim($output),
-      'locked'  => $service['locked'],
+      'locked'  => empty($service['start']) || empty($service['stop']),
     ];
   }
 

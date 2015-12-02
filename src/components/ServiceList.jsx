@@ -12,7 +12,7 @@ const ServiceList = props => (
         name={props.services[key].name}
         enabled={props.services[key].enabled}
         locked={props.services[key].locked}
-        onToggle={props.onToggle}
+        onServiceToggle={props.onServiceToggle}
       />
     ))}
   </List>
