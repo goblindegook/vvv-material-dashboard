@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 1.1.1 (December 5, 2015)
+
+* Cosmetic improvements with support for smaller screens and window sizes.
+* Start and stop the Cron service.
+* Start and stop the Redis service, if available. ([Have you given VVV + Redis a look?](https://github.com/goblindegook/VVV-Redis))
+
 ## Version 1.1.0 (December 1, 2015)
 
 * REST API: Renamed `/status` endpoints to `/services`.
