@@ -31,7 +31,8 @@ const SiteList = props => (
             debug={item.debug}
             hosts={item.hosts}
             name={item.key}
-            wp={item.wp}
+            cms={item.cms}
+            style={styles.site}
           />
         ))}
     </List>
@@ -52,8 +53,14 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
   },
+  list: {
+    backgroundColor: '#eee',
+  },
   hidden: {
     display: 'none',
+  },
+  site: {
+    marginBottom: 16,
   },
 }
 

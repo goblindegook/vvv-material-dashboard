@@ -4,6 +4,9 @@ namespace goblindegook\VVV\API;
 
 class Sites extends Base {
 
+  const CMS_UNKNOWN   = 'unknown';
+  const CMS_WORDPRESS = 'wordpress';
+
   /**
    * GET /sites
    */
@@ -50,8 +53,8 @@ class Sites extends Base {
         if ($key !== 'vvv-hosts') {
           $lines                = file($path);
           $sites[$key]['hosts'] = [];
+          $sites[$key]['cms']   = static::CMS_UNKNOWN;
           $sites[$key]['debug'] = false;
-          $sites[$key]['wp']    = false;
 
           foreach ($lines as $host) {
             if (!strstr($host, '#') && 'vvv.dev' !== trim($host)) {
@@ -66,8 +69,8 @@ class Sites extends Base {
         $key = str_replace(['../', '/wp-config.php', '/htdocs'], [], $path);
 
         if (!empty($sites[$key]['hosts'])) {
+          $sites[$key]['cms']   = static::CMS_WORDPRESS;
           $sites[$key]['debug'] = $this->_isDebugEnabled($path);
-          $sites[$key]['wp']    = true;
         }
       }
     }

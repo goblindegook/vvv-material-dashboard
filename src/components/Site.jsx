@@ -38,7 +38,7 @@ const Site = props => {
     />
   ]
 
-  if (props.wp) {
+  if (props.cms === 'wordpress') {
     actions.push(
       <RaisedButton
         href={getSiteAdminUrl(props)}
@@ -62,11 +62,11 @@ const Site = props => {
   }
 
   return (
-    <Card initiallyExpanded={false} style={styles.container} zDepth={1}>
+    <Card initiallyExpanded={false} style={props.style} zDepth={1}>
       <CardHeader
         title={props.query ? <Highlight search={props.query}>{props.name}</Highlight> : props.name}
         subtitle={props.debug ? 'Debug Mode' : ''}
-        avatar={props.wp ? <Avatar src={WordPressIcon} /> : <Avatar>{props.name[0].toUpperCase()}</Avatar>}
+        avatar={props.cms === 'wordpress' ? <Avatar src={WordPressIcon} /> : <Avatar>{props.name[0].toUpperCase()}</Avatar>}
         showExpandableButton={props.hosts.length > 1}
       />
       <CardActions>
@@ -91,14 +91,9 @@ Site.propTypes = {
   debug:  React.PropTypes.bool,
   hosts:  React.PropTypes.arrayOf(React.PropTypes.string),
   query:  React.PropTypes.string,
-  wp:     React.PropTypes.bool,
+  cms:    React.PropTypes.string,
+  style:  React.PropTypes.object,
   xdebug: React.PropTypes.bool,
-}
-
-const styles = {
-  container: {
-    marginBottom: 16,
-  },
 }
 
 export default Site

@@ -38,7 +38,7 @@ const styles = {
   search: {
     display: 'flex',
     flexDirection: 'row',
-    marginBottom: 16,
+    marginBottom: 8,
     padding: 8,
     paddingLeft: 16,
     paddingRight: 16,

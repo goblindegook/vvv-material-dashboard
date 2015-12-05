@@ -20,7 +20,7 @@ const ServiceList = props => (
 
 ServiceList.propTypes = {
   onServiceToggle: React.PropTypes.func,
-  services:        React.PropTypes.arrayOf(React.PropTypes.object),
+  services:        React.PropTypes.object,
 }
 
 ServiceList.mixins = [PureRenderMixin]

@@ -15,7 +15,7 @@ const styles = {
     display: 'block',
     margin: 'auto',
     position: 'relative',
-    margin: '64px auto',
+    margin: '64px auto 88px',
   },
   hidden: {
     display: 'none',

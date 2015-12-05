@@ -17,7 +17,7 @@ const {
   ContentMail,
 } = SvgIcons
 
-const Tools = props => (
+const ToolList = props => (
   <List subheader='Tools'>
     <ListItem
       primaryText='phpMyAdmin'
@@ -52,8 +52,8 @@ const Tools = props => (
   </List>
 )
 
-Tools.mixins = [PureRenderMixin]
+ToolList.mixins = [PureRenderMixin]
 
-Tools.propTypes = {}
+ToolList.propTypes = {}
 
-export default Tools
+export default ToolList

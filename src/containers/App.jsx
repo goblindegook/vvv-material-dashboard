@@ -7,7 +7,7 @@ import MUI from 'material-ui'
 import ThemeManager from 'material-ui/lib/styles/theme-manager'
 import LoadingIndicator from '../components/LoadingIndicator'
 import SiteList from '../components/SiteList'
-import Tools from '../components/Tools'
+import ToolList from '../components/ToolList'
 import ServiceList from '../components/ServiceList'
 import { getServiceStatus, setServiceStatus } from '../actions/services'
 import Theme from '../theme'
@@ -15,11 +15,23 @@ import Theme from '../theme'
 const {
   AppBar,
   AppCanvas,
-  Badge,
+  Mixins,
   Paper,
+  Styles,
   Tabs,
   Tab,
 } = MUI
+
+const {
+  StylePropable,
+  StyleResizable,
+} = Mixins
+
+const {
+  Colors,
+  Spacing,
+  Typography,
+} = Styles
 
 const appTabs = [
   {
@@ -34,15 +46,24 @@ const appTabs = [
 
 const App = React.createClass({
 
-  propTypes: {
-    children:  PropTypes.any,
+  contextTypes : {
+    muiTheme: React.PropTypes.object,
   },
-
-  mixins: [PureRenderMixin, TimerMixin],
 
   childContextTypes : {
     muiTheme: React.PropTypes.object,
   },
+
+  propTypes: {
+    children: React.PropTypes.node,
+  },
+
+  mixins: [
+    PureRenderMixin,
+    StylePropable,
+    StyleResizable,
+    TimerMixin,
+  ],
 
   /**
    * Applies custom theme to application.
@@ -77,27 +98,34 @@ const App = React.createClass({
           zDepth={2}
           style={styles.appbar}
           iconElementRight={
-            <Tabs>
-              {appTabs.map(appTab => <Tab
-                {...appTab}
-                onActive={tab => this.props.dispatch(pushState(null, tab.props.route))}
+            <Tabs>{appTabs.map(tab => (
+              <Tab {...tab}
+                onActive={() => this.props.dispatch(pushState(null, tab.route))}
                 style={styles.tab}
-              />)}
-            </Tabs>
+              />
+            ))}</Tabs>
           }
         />
-        <div style={styles.root}>
+        <div style={Object.assign({}, styles.root,
+          this.isDeviceSize(StyleResizable.statics.Sizes.LARGE) && styles.large.root
+        )}>
           <section style={styles.content}>
             {this.props.children}
           </section>
-          <aside style={styles.sidebar}>
-            <Tools />
-            <ServiceList
-              services={this.props.services}
-              onServiceToggle={(service, toggled) => {
-                this.props.dispatch(setServiceStatus(service, toggled ? 'on' : 'off'))
-              }}
-            />
+          <aside style={Object.assign({}, styles.sidebar,
+            this.isDeviceSize(StyleResizable.statics.Sizes.LARGE) && styles.large.sidebar
+          )}>
+            <Paper style={styles.box}>
+              <ToolList />
+            </Paper>
+            <Paper style={styles.box}>
+              <ServiceList
+                services={this.props.services}
+                onServiceToggle={(service, toggled) => {
+                  this.props.dispatch(setServiceStatus(service, toggled ? 'on' : 'off'))
+                }}
+              />
+            </Paper>
           </aside>
         </div>
       </AppCanvas>
@@ -108,27 +136,36 @@ const App = React.createClass({
 
 const styles = {
   root: {
+    backgroundColor: '#eee',
     display: 'flex',
+    flexDirection: 'column',
+    padding: 16,
+    paddingTop: 88,
   },
   appbar: {
     position: 'fixed',
   },
   content: {
     flex: 3,
-    flexDirection: 'row',
-    padding: '24px 16px',
-    marginTop: 64,
   },
   sidebar: {
     flex: 1,
-    padding: 16,
-    paddingLeft: 0,
-    marginTop: 64,
+  },
+  box: {
+    marginBottom: 16,
   },
   tab: {
     padding: 24,
     paddingTop: 16,
   },
+  large: {
+    root: {
+      flexDirection: 'row',
+    },
+    sidebar: {
+      paddingLeft: 16,
+    },
+  }
 }
 
 const selector = state => Object.assign({},
