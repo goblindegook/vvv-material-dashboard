@@ -5,6 +5,13 @@ namespace goblindegook\VVV\API;
 class Services extends Base {
 
   private $_services = [
+    'cron' => [
+      'name'    => 'Cron',
+      'status'  => 'sudo service cron status',
+      'start'   => 'sudo service cron start',
+      'stop'    => 'sudo service cron stop',
+      'pattern' => '/start\/running/',
+    ],
     'memcached' => [
       'name'    => 'Memcached',
       'status'  => 'sudo service memcached status',
@@ -28,6 +35,13 @@ class Services extends Base {
       'name'    => 'PHP-FPM',
       'status'  => 'sudo service php5-fpm status',
       'pattern' => '/start\/running/',
+    ],
+    'redis' => [
+      'name'    => 'Redis',
+      'status'  => 'sudo service redis-server status',
+      'start'   => 'sudo service redis-server start',
+      'stop'    => 'sudo service redis-server stop',
+      'pattern' => '/is running/',
     ],
     'xdebug' => [
       'name'    => 'Xdebug',
@@ -129,12 +143,7 @@ class Services extends Base {
     $output  = $this->_ssh->exec($service['status']);
     $enabled = (bool) preg_match($service['pattern'], $output);
 
-    return [
-      'name'    => $service['name'],
-      'enabled' => $enabled,
-      'message' => trim($output),
-      'locked'  => empty($service['start']) || empty($service['stop']),
-    ];
+    return $this->_response($handle, $enabled, $output);
   }
 
   /**
@@ -157,15 +166,30 @@ class Services extends Base {
 
     // TODO: Check return code.
 
-    $service = $this->_services[$handle];
     $enabled = $status === 'on';
-    $output  = $this->_ssh->exec($enabled ? $service['start'] : $service['stop']);
+    $command = $enabled ? 'start' : 'stop';
+    $output  = $this->_ssh->exec($this->_services[$handle][$command]);
+
+    return $this->_response($handle, $enabled, $output);
+  }
+
+  /**
+   * Format endpoint responses.
+   * @param  string $handle  Service handle.
+   * @param  bool   $enabled Whether the service is enabled.
+   * @param  string $output  Output from the issued command.
+   * @return array           Service response.
+   */
+  private function _response($handle, $enabled, $output) {
+    $service     = $this->_services[$handle];
+    $unavailable = (bool) preg_match('/unrecognized/', $output);
+    $locked      = $unavailable || empty($service['start']) || empty($service['stop']);
 
     return [
       'name'    => $service['name'],
       'enabled' => $enabled,
       'message' => trim($output),
-      'locked'  => empty($service['start']) || empty($service['stop']),
+      'locked'  => $locked,
     ];
   }
 
