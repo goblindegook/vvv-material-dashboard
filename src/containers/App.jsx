@@ -9,8 +9,7 @@ import LoadingIndicator from '../components/LoadingIndicator'
 import SiteList from '../components/SiteList'
 import Tools from '../components/Tools'
 import ServiceList from '../components/ServiceList'
-import * as SiteActions from '../actions/sites'
-import * as ServiceActions from '../actions/services'
+import { getServiceStatus, setServiceStatus } from '../actions/services'
 import Theme from '../theme'
 
 const {
@@ -21,6 +20,17 @@ const {
   Tabs,
   Tab,
 } = MUI
+
+const appTabs = [
+  {
+    label: 'Sites',
+    route: '/sites',
+  },
+  {
+    label: 'About',
+    route: '/about',
+  }
+]
 
 const App = React.createClass({
 
@@ -34,20 +44,30 @@ const App = React.createClass({
     muiTheme: React.PropTypes.object,
   },
 
+  /**
+   * Applies custom theme to application.
+   * @return {Object} Child context.
+   */
   getChildContext() {
     return {
       muiTheme: ThemeManager.getMuiTheme(Theme),
     }
   },
 
+  /**
+   * Gets VVV service status on start.
+   */
   componentDidMount() {
-    this.props.dispatch(ServiceActions.getStatus())
+    this.props.dispatch(getServiceStatus())
 
     this.setInterval(() => {
-      this.props.dispatch(ServiceActions.getStatus())
+      this.props.dispatch(getServiceStatus())
     }, 30000)
   },
 
+  /**
+   * Renders the application.
+   */
   render() {
     return (
       <AppCanvas>
@@ -58,18 +78,11 @@ const App = React.createClass({
           style={styles.appbar}
           iconElementRight={
             <Tabs>
-              <Tab
-                label='Sites'
-                route='/sites'
-                onActive={this._navigateToTab}
+              {appTabs.map(appTab => <Tab
+                {...appTab}
+                onActive={tab => this.props.dispatch(pushState(null, tab.props.route))}
                 style={styles.tab}
-              />
-              <Tab
-                label='About'
-                route='/about'
-                onActive={this._navigateToTab}
-                style={styles.tab}
-              />
+              />)}
             </Tabs>
           }
         />
@@ -81,8 +94,8 @@ const App = React.createClass({
             <Tools />
             <ServiceList
               services={this.props.services}
-              onServiceToggle={(event, toggled) => {
-                this.props.dispatch(ServiceActions.setStatus(event.target.name, toggled ? 'on' : 'off'))
+              onServiceToggle={(service, toggled) => {
+                this.props.dispatch(setServiceStatus(service, toggled ? 'on' : 'off'))
               }}
             />
           </aside>
@@ -91,9 +104,6 @@ const App = React.createClass({
     )
   },
 
-  _navigateToTab(tab) {
-    this.props.dispatch(pushState(null, tab.props.route))
-  },
 })
 
 const styles = {

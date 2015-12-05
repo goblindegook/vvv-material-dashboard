@@ -139,9 +139,8 @@ class Services extends Base {
 
     // TODO: Check return code.
 
-    $service = $this->_services[$handle];
-    $output  = $this->_ssh->exec($service['status']);
-    $enabled = (bool) preg_match($service['pattern'], $output);
+    $output  = $this->_ssh->exec($this->_services[$handle]['status']);
+    $enabled = (bool) preg_match($this->_services[$handle]['pattern'], $output);
 
     return $this->_response($handle, $enabled, $output);
   }

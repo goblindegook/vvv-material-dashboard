@@ -18,8 +18,11 @@ const ServiceList = props => (
   </List>
 )
 
-ServiceList.mixins = [PureRenderMixin]
+ServiceList.propTypes = {
+  onServiceToggle: React.PropTypes.func,
+  services:        React.PropTypes.arrayOf(React.PropTypes.object),
+}
 
-ServiceList.propTypes = {}
+ServiceList.mixins = [PureRenderMixin]
 
 export default ServiceList

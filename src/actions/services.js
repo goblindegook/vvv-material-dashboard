@@ -2,49 +2,49 @@ import fetch from 'isomorphic-fetch'
 import _ from 'lodash'
 
 export const ActionTypes = {
-  REQUEST_STATUS:       'REQUEST_STATUS',
-  RECEIVE_STATUS:       'RECEIVE_STATUS',
-  RECEIVE_STATUS_ERROR: 'RECEIVE_STATUS_ERROR',
+  REQUEST_SERVICE_STATUS:       'REQUEST_SERVICE_STATUS',
+  RECEIVE_SERVICE_STATUS:       'RECEIVE_SERVICE_STATUS',
+  RECEIVE_SERVICE_STATUS_ERROR: 'RECEIVE_SERVICE_STATUS_ERROR',
 }
 
-export function requestStatus() {
+export function requestServiceStatus() {
   return {
-    type: ActionTypes.REQUEST_STATUS,
+    type: ActionTypes.REQUEST_SERVICE_STATUS,
   }
 }
 
-export function receiveStatus(services) {
+export function receiveServiceStatus(services) {
   return {
-    type:    ActionTypes.RECEIVE_STATUS,
+    type:    ActionTypes.RECEIVE_SERVICE_STATUS,
     payload: { services },
   }
 }
 
-export function receiveStatusError(error) {
+export function receiveServiceStatusError(error) {
   return {
-    type:    ActionTypes.RECEIVE_STATUS_ERROR,
+    type:    ActionTypes.RECEIVE_SERVICE_STATUS_ERROR,
     payload: error,
     error:   true,
   }
 }
 
-export function getStatus(service = '') {
+export function getServiceStatus(service = '') {
   return async dispatch => {
     const url = 'http://vvv/api/v1/services' + (service ? '/' + encodeURIComponent(service) : '')
 
-    dispatch(requestStatus())
+    dispatch(requestServiceStatus())
 
     try {
       const response = await fetch(url)
       const services = await response.json()
-      dispatch(receiveStatus(services))
+      dispatch(receiveServiceStatus(services))
     } catch(error) {
-      dispatch(receiveStatusError(error))
+      dispatch(receiveServiceStatusError(error))
     }
   }
 }
 
-export function setStatus(service = '', status = '') {
+export function setServiceStatus(service = '', status = '') {
   if (!service || !status) {
     return
   }
@@ -52,14 +52,14 @@ export function setStatus(service = '', status = '') {
   return async dispatch => {
     const url = 'http://vvv/api/v1/services/' + encodeURIComponent(service) + '/' + encodeURIComponent(status)
 
-    dispatch(requestStatus())
+    dispatch(requestServiceStatus())
 
     try {
       const response = await fetch(url, {method: 'put'})
       const services = await response.json()
-      dispatch(receiveStatus(services))
+      dispatch(receiveServiceStatus(services))
     } catch(error) {
-      dispatch(receiveStatusError(error))
+      dispatch(receiveServiceStatusError(error))
     }
   }
 }
