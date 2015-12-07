@@ -6,9 +6,11 @@ require __DIR__ . '/vendor/autoload.php';
 
 \Slim\Slim::registerAutoloader();
 
+$serviceConfig = json_decode(file_get_contents(__DIR__ . '/config/services.json'), true);
+
 $app      = new \Slim\Slim();
 $sites    = new API\Sites($app);
-$services = new API\Services($app);
+$services = new API\Services($app, $serviceConfig);
 
 /**
  * Response header middleware.

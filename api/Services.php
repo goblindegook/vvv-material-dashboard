@@ -4,55 +4,19 @@ namespace goblindegook\VVV\API;
 
 class Services extends Base {
 
-  private $_services = [
-    'cron' => [
-      'name'    => 'Cron',
-      'status'  => 'sudo service cron status',
-      'start'   => 'sudo service cron start',
-      'stop'    => 'sudo service cron stop',
-      'pattern' => '/start\/running/',
-    ],
-    'memcached' => [
-      'name'    => 'Memcached',
-      'status'  => 'sudo service memcached status',
-      'start'   => 'sudo service memcached start',
-      'stop'    => 'sudo service memcached stop',
-      'pattern' => '/is running/',
-    ],
-    'mysql' => [
-      'name'    => 'MySQL',
-      'status'  => 'sudo service mysql status',
-      'start'   => 'sudo service mysql start',
-      'stop'    => 'sudo service mysql stop',
-      'pattern' => '/start\/running/',
-    ],
-    'nginx' => [
-      'name'    => 'Nginx',
-      'status'  => 'sudo service nginx status',
-      'pattern' => '/is running/',
-    ],
-    'php5-fpm' => [
-      'name'    => 'PHP-FPM',
-      'status'  => 'sudo service php5-fpm status',
-      'pattern' => '/start\/running/',
-    ],
-    'redis' => [
-      'name'    => 'Redis',
-      'status'  => 'sudo service redis-server status',
-      'start'   => 'sudo service redis-server start',
-      'stop'    => 'sudo service redis-server stop',
-      'pattern' => '/is running/',
-    ],
-    'xdebug' => [
-      'name'    => 'Xdebug',
-      'status'  => 'php5query -s fpm -m xdebug',
-      'start'   => 'sudo php5enmod xdebug',
-      'stop'    => 'sudo php5dismod xdebug',
-      'pattern' => '/Enabled for fpm/',
-    ],
-  ];
+  private $_services;
 
   private $_ssh;
+
+  /**
+   * Endpoint constructor.
+   * @param \Slim\Slim $app           Application.
+   * @param array      $serviceConfig Service configuration.
+   */
+  public function __construct($app, $serviceConfig) {
+    parent::__construct($app);
+    $this->_services = $serviceConfig;
+  }
 
   /**
    * OPTIONS /services(/:handle(/:status))
