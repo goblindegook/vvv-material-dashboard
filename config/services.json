@@ -4,7 +4,7 @@
     "status": "sudo service cron status",
     "start": "sudo service cron start",
     "stop": "sudo service cron stop",
-    "pattern": "#start/#"
+    "pattern": "#start/running#"
   },
   "memcached": {
     "name": "Memcached",
