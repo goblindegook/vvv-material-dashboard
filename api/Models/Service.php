@@ -1,82 +1,84 @@
 <?php
-
 namespace goblindegook\VVV\API\Models;
 
-class Service {
+class Service
+{
 
-  private $_config    = [];
-  private $_isEnabled = false;
-  private $_isLocked  = false;
-  private $_ssh;
+    private $config    = [];
+    private $isEnabled = false;
+    private $isLocked  = false;
+    private $ssh;
 
-  /**
-   * Model constructor.
-   * @param array               $config Service configuration.
-   * @param \phpseclib\Net\SSH2 $ssh    SSH connection handler.
-   */
-  public function __construct($config, $ssh) {
-    $this->_config = $config;
-    $this->_ssh    = $ssh;
-  }
+    /**
+     * Model constructor.
+     * @param array               $config Service configuration.
+     * @param \phpseclib\Net\SSH2 $ssh    SSH connection handler.
+     */
+    public function __construct($config, $ssh)
+    {
+        $this->config = $config;
+        $this->ssh    = $ssh;
+    }
 
-  /**
-   * Get service name.
-   * @return string Service name.
-   */
-  public function getName() {
-    return $this->_config['name'];
-  }
+    /**
+     * Get service name.
+     * @return string Service name.
+     */
+    public function getName()
+    {
+        return $this->config['name'];
+    }
 
-  /**
-   * [isEnabled description]
-   * @return boolean [description]
-   */
-  public function isEnabled() {
-    return $this->_isEnabled;
-  }
+    /**
+     * [isEnabled description]
+     * @return boolean [description]
+     */
+    public function isEnabled()
+    {
+        return $this->isEnabled;
+    }
 
-  /**
-   * [isLocked description]
-   * @return boolean [description]
-   */
-  public function isLocked() {
-    return $this->_isLocked;
-  }
+    /**
+     * [isLocked description]
+     * @return boolean [description]
+     */
+    public function isLocked()
+    {
+        return $this->isLocked;
+    }
 
-  /**
-   * Get the service status.
-   * @param  string $handle Service handle.
-   * @return array          Service status.
-   */
-  public function getStatus() {
+    /**
+     * Get the service status.
+     * @return array Service status.
+     */
+    public function getStatus()
+    {
+        // TODO: Check return code.
 
-    // TODO: Check return code.
+        $output = $this->ssh->exec($this->config['status']);
 
-    $output = $this->_ssh->exec($this->_config['status']);
+        $unrecognized    = (bool)preg_match('/unrecognized/', $output);
+        $this->isEnabled = (bool)preg_match($this->config['pattern'], $output);
+        $this->isLocked  = $unrecognized || empty($this->config['start']) || empty($this->config['stop']);
 
-    $unrecognized     = (bool) preg_match('/unrecognized/', $output);
-    $this->_isEnabled = (bool) preg_match($this->_config['pattern'], $output);
-    $this->_isLocked  = $unrecognized || empty($this->_config['start']) || empty($this->_config['stop']);
+        return $output;
+    }
 
-    return $output;
-  }
+    /**
+     * Set the status for a single service.
+     * @param  string $status Service status.
+     * @return array          Service status.
+     */
+    public function setStatus($status)
+    {
+        // TODO: Check return code.
 
-  /**
-   * Set the status for a single service.
-   * @param  string $status Service status.
-   * @return array          Service status.
-   */
-  public function setStatus($status) {
+        $enable  = strtolower($status) === 'on';
+        $command = $enable ? 'start' : 'stop';
+        $output  = $this->ssh->exec($this->config[$command]);
 
-    // TODO: Check return code.
+        $this->isEnabled = $enable;
 
-    $enable  = strtolower($status) === 'on';
-    $command = $enable ? 'start' : 'stop';
-    $output  = $this->_ssh->exec($this->_config[$command]);
-
-    $this->_isEnabled = $enable;
-
-    return $output;
-  }
-
+        return $output;
+    }
 }
