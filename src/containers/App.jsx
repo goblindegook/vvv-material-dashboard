@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { pushState } from 'redux-router'
@@ -5,7 +6,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin'
 import TimerMixin from 'react-timer-mixin'
 import MUI from 'material-ui'
 import ThemeManager from 'material-ui/lib/styles/theme-manager'
-import LoadingIndicator from '../components/LoadingIndicator'
 import SiteList from '../components/SiteList'
 import ToolList from '../components/ToolList'
 import ServiceList from '../components/ServiceList'
@@ -55,7 +55,9 @@ const App = React.createClass({
   },
 
   propTypes: {
-    children: React.PropTypes.node,
+    children:  React.PropTypes.node,
+    isWaiting: React.PropTypes.bool,
+    services:  React.PropTypes.object,
   },
 
   mixins: [
@@ -120,6 +122,7 @@ const App = React.createClass({
             </Paper>
             <Paper style={styles.box}>
               <ServiceList
+                isWaiting={_.isEmpty(this.props.services)}
                 services={this.props.services}
                 onServiceToggle={(service, toggled) => {
                   this.props.dispatch(setServiceStatus(service, toggled ? 'on' : 'off'))
@@ -168,9 +171,6 @@ const styles = {
   }
 }
 
-const selector = state => Object.assign({},
-  state.services.toJS(),
-  state.sites.toJS()
-)
+const selector = state => state.services.toJS()
 
 export default connect(selector)(App)

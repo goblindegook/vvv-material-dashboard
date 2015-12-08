@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import { List } from 'material-ui'
+import LoadingIndicator from './LoadingIndicator'
 import Service from './Service'
 
 const ServiceList = props => (
   <List subheader='Status'>
+    <LoadingIndicator key='_loading' isWaiting={props.isWaiting} />
     {Object.keys(props.services).map(key => (
       <Service
         key={key}
@@ -19,6 +21,7 @@ const ServiceList = props => (
 )
 
 ServiceList.propTypes = {
+  isWaiting:       React.PropTypes.bool,
   onServiceToggle: React.PropTypes.func,
   services:        React.PropTypes.object,
 }

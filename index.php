@@ -9,8 +9,8 @@ require __DIR__ . '/vendor/autoload.php';
 $serviceConfig = json_decode(file_get_contents(__DIR__ . '/config/services.json'), true);
 
 $app      = new \Slim\Slim();
-$sites    = new API\Sites($app);
-$services = new API\Services($app, $serviceConfig);
+$sites    = new API\Endpoints\Sites($app);
+$services = new API\Endpoints\Services($app, $serviceConfig);
 
 /**
  * Response header middleware.
