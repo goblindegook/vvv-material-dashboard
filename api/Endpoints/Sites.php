@@ -60,7 +60,9 @@ class Sites extends Base
             // Site configuration:
             if ($file->getFileName() === 'wp-config.php') {
                 $key = str_replace(['../', '/wp-config.php', '/htdocs'], [], $path);
-                $sites[$key]->parseConfiguration($path);
+                if (isset($sites[$key])) {
+                    $sites[$key]->parseConfiguration($path);
+                }
             }
         }
 
