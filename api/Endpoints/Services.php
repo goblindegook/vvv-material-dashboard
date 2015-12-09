@@ -62,8 +62,8 @@ class Services extends Base
                     $response[$key] = $this->response($service, $service->getStatus());
                 }
             }
-        }
-        catch(\Exception $e) {
+            
+        } catch (\Exception $e) {
             $this->error($e);
         }
 
@@ -87,8 +87,8 @@ class Services extends Base
 
             $service         = new Service($this->services[$name], $this->ssh);
             $response[$name] = $this->response($service, $service->setStatus($status));
-        }
-        catch (\Exception $e) {
+
+        } catch (\Exception $e) {
             $this->error($e);
         }
 

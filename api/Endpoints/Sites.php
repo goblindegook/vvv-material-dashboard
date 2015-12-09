@@ -41,12 +41,12 @@ class Sites extends Base
         ];
 
         $files = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($root, \RecursiveDirectoryIterator::SKIP_DOTS));
+            new \RecursiveDirectoryIterator($root, \RecursiveDirectoryIterator::SKIP_DOTS)
+        );
 
         $files->setMaxDepth($depth);
 
         foreach ($files as $path => $file) {
-
             // Site hosts:
             if ($file->getFileName() === 'vvv-hosts' && !is_dir($path)) {
                 $key = str_replace(['../', '/vvv-hosts'], [], $path);
