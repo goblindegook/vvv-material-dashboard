@@ -6,6 +6,13 @@
     "stop": "sudo service cron stop",
     "pattern": "#start/running#"
   },
+  "mailcatcher": {
+    "name": "Mailcatcher",
+    "status": "sudo service mailcatcher status",
+    "start": "sudo service mailcatcher start",
+    "stop": "sudo service mailcatcher stop",
+    "pattern": "#start/running#"
+  },
   "memcached": {
     "name": "Memcached",
     "status": "sudo service memcached status",
