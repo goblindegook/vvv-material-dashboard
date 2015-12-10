@@ -25,7 +25,11 @@ The project requires the NPM and Composer package management applications, both 
 1. Using the terminal, `cd` into the `<VVV ROOT>/www` directory.
 2. Clone the repository into the `material-dashboard` directory by running `git clone https://github.com/goblindegook/vvv-material-dashboard.git material-dashboard`.
 3. Enter the `material-dashboard` directory you've just created.
-4. Execute `npm install && npm run build && npm run activate` to build the project.
+4. Execute `npm install` to install dependencies.
+5. Execute `npm run build` to build the project.
+6. Execute `npm run activate` to copy the dashboard override to the parent directory.
+
+If you're compiling from within VVV, please note that the `npm run build` command will occasionally fail with a "process out of memory" error. Re-running the command has worked for me.
 
 Your new dashboard interface should now be available at [http://vvv/](http://vvv/). Enjoy!
 
