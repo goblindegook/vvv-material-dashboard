@@ -18,9 +18,13 @@ I needed an excuse to experiment with [Redux](https://github.com/rackt/react-red
 
 ## May I have it?
 
-You can install this project as a custom VVV dashboard by following the steps below.
+Download the [pre-built project](https://dl.dropboxusercontent.com/u/767182/material-dashboard/latest.zip) and unzip it inside the `<VVV ROOT>/www/dashboard` folder.
 
-The project requires the NPM and Composer package management applications, both of which are provided by VVV, so you don't need to install anything else.
+You should see a new `material-dashboard` folder.  Now enter it and copy the `dashboard-custom.php` into the parent folder to activate the dashboard.
+
+## I want to build the dashboard myself
+
+The project requires the [NPM](https://www.npmjs.com) and [Composer](https://getcomposer.org) package management applications, both of which are provided by VVV, so you may not need to install anything else.  If you want to use the host operating system, though, you'll have to install these first.
 
 1. Using the terminal, `cd` into the `<VVV ROOT>/www` directory.
 2. Clone the repository into the `material-dashboard` directory by running `git clone https://github.com/goblindegook/vvv-material-dashboard.git material-dashboard`.
