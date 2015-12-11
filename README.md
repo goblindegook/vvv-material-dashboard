@@ -20,7 +20,7 @@ I needed an excuse to experiment with [Redux](https://github.com/rackt/react-red
 
 Download the [pre-built project](https://dl.dropboxusercontent.com/u/767182/material-dashboard/latest.zip) and unzip it inside the `<VVV ROOT>/www/dashboard` folder.
 
-You should see a new `material-dashboard` folder.  Now enter it and copy the `dashboard-custom.php` into the parent folder to activate the dashboard.
+You should see a new `material-dashboard` folder.  Now enter it and copy the `dashboard-custom.php` file into the parent folder to activate the dashboard.
 
 ## I want to build the dashboard myself
 
