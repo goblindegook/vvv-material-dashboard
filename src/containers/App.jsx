@@ -98,9 +98,11 @@ const App = React.createClass({
           title='Varying Vagrant Vagrants'
           showMenuIconButton={false}
           zDepth={2}
+          onTitleTouchTap={() => this.props.dispatch(pushState(null, '/sites'))}
           style={styles.appbar}
           iconElementRight={
             <Tabs>{appTabs.map(tab => (
+              // TODO: Set to active when current route equals tab.route
               <Tab {...tab}
                 onActive={() => this.props.dispatch(pushState(null, tab.route))}
                 style={styles.tab}
