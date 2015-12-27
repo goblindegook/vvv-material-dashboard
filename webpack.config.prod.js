@@ -14,14 +14,11 @@ module.exports = {
   output: {
     path:       path.join(__dirname, 'dist'),
     filename:   'bundle.js',
-    publicPath: '/material-dashboard/dist/'
+    publicPath: '/material-dashboard/dist/',
   },
   resolve: {
     extensions: ['', '.jsx', '.js', '.scss', '.json'],
-    modulesDirectories: [
-      'node_modules',
-      path.resolve(__dirname, './node_modules')
-    ]
+    root:       path.resolve(__dirname, './node_modules'),
   },
   postcss: [autoprefixer],
   plugins: [
@@ -35,8 +32,9 @@ module.exports = {
     }),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
-        warnings: false
-      }
+        warnings: false,
+      },
+      sourceMap: false,
     })
   ],
   module: {
@@ -45,8 +43,7 @@ module.exports = {
         test:    /\.(js|jsx)$/,
         loaders: ['babel'],
         include: path.join(__dirname, 'src')
-      },
-      {
+      }, {
         test:    /\.(sass|scss|css)$/,
         loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass')
       }, {
