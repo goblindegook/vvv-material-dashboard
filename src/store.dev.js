@@ -1,24 +1,24 @@
 import { Iterable } from 'immutable'
 import { compose, createStore, combineReducers, applyMiddleware } from 'redux'
-import { reduxReactRouter } from 'redux-router'
-import { createHashHistory } from 'history'
+import { hashHistory } from 'react-router'
+import { syncHistory } from 'redux-simple-router'
 import { persistState } from 'redux-devtools'
 import thunk from 'redux-thunk'
-import routes from './routes'
 import reducers from './reducers'
-import DevTools from './containers/DevTools';
+import DevTools from './components/DevTools';
 
 const app = combineReducers(reducers)
 
+const reduxRouterMiddleware = syncHistory(hashHistory)
+
 const store = compose(
   applyMiddleware(thunk),
-  reduxReactRouter({
-    createHistory: createHashHistory,
-    routes,
-  }),
+  applyMiddleware(reduxRouterMiddleware),
   DevTools.instrument(),
   persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
 )(createStore)(app)
+
+reduxRouterMiddleware.listenForReplays(store)
 
 if (module.hot) {
   module.hot.accept('./reducers', () => {

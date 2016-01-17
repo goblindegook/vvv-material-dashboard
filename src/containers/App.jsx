@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { pushState } from 'redux-router'
+import { routeActions } from 'redux-simple-router'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import TimerMixin from 'react-timer-mixin'
 import MUI from 'material-ui'
@@ -98,13 +98,13 @@ const App = React.createClass({
           title='Varying Vagrant Vagrants'
           showMenuIconButton={false}
           zDepth={2}
-          onTitleTouchTap={() => this.props.dispatch(pushState(null, '/sites'))}
+          onTitleTouchTap={() => this.props.dispatch(routeActions.push('/sites'))}
           style={styles.appbar}
           iconElementRight={
             <Tabs>{appTabs.map(tab => (
               // TODO: Set to active when current route equals tab.route
               <Tab {...tab}
-                onActive={() => this.props.dispatch(pushState(null, tab.route))}
+                onActive={() => this.props.dispatch(routeActions.push(tab.route))}
                 style={styles.tab}
               />
             ))}</Tabs>

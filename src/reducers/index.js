@@ -1,9 +1,9 @@
-import { routerStateReducer } from 'redux-router'
+import { routeReducer } from 'redux-simple-router'
 import sites from './sites.js'
 import services from './services.js'
 
 export default {
-  router: routerStateReducer,
+  routing: routeReducer,
   sites,
   services,
 }

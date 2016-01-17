@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import MUI from 'material-ui'
-import SvgIcons from 'material-ui/lib/svg-icons'
+import ActionInfo from 'material-ui/lib/svg-icons/action/info'
+import ContentMail from 'material-ui/lib/svg-icons/content/mail'
 import IconDatabase from './icons/IconDatabase'
 import IconOpcache from './icons/IconOpcache'
 import IconProfiler from './icons/IconProfiler'
@@ -11,11 +12,6 @@ const {
   ListItem,
   SvgIcon,
 } = MUI
-
-const {
-  ActionInfo,
-  ContentMail,
-} = SvgIcons
 
 const ToolList = props => (
   <List subheader='Tools'>

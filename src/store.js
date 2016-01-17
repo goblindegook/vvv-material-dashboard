@@ -1,19 +1,17 @@
 import { Iterable } from 'immutable'
 import { compose, createStore, combineReducers, applyMiddleware } from 'redux'
-import { reduxReactRouter } from 'redux-router'
-import { createHashHistory } from 'history'
+import { hashHistory } from 'react-router'
+import { syncHistory } from 'redux-simple-router'
 import thunk from 'redux-thunk'
-import routes from './routes'
 import reducers from './reducers'
 
 const app = combineReducers(reducers)
 
+const reduxRouterMiddleware = syncHistory(hashHistory)
+
 const store = compose(
   applyMiddleware(thunk),
-  reduxReactRouter({
-    createHistory: createHashHistory,
-    routes,
-  })
+  applyMiddleware(reduxRouterMiddleware)
 )(createStore)(app)
 
 export default store
