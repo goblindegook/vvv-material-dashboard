@@ -30,7 +30,7 @@ export function receiveServiceStatusError(error) {
 
 export function getServiceStatus(service = '') {
   return async dispatch => {
-    const url = 'http://vvv/api/v1/services' + (service ? '/' + encodeURIComponent(service) : '')
+    const url = '//vvv/api/v1/services' + (service ? '/' + encodeURIComponent(service) : '')
 
     dispatch(requestServiceStatus())
 
@@ -45,12 +45,8 @@ export function getServiceStatus(service = '') {
 }
 
 export function setServiceStatus(service = '', status = '') {
-  if (!service || !status) {
-    return
-  }
-
   return async dispatch => {
-    const url = 'http://vvv/api/v1/services/' + encodeURIComponent(service) + '/' + encodeURIComponent(status)
+    const url = '//vvv/api/v1/services/' + encodeURIComponent(service) + '/' + encodeURIComponent(status)
 
     dispatch(requestServiceStatus())
 

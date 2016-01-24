@@ -5,7 +5,7 @@ import { syncHistory } from 'redux-simple-router'
 import { persistState } from 'redux-devtools'
 import thunk from 'redux-thunk'
 import reducers from './reducers'
-import DevTools from './components/DevTools';
+import DevTools from './components/DevTools'
 
 const app = combineReducers(reducers)
 
