@@ -7,16 +7,17 @@ import thunk from 'redux-thunk'
 import reducers from './reducers'
 import DevTools from './components/DevTools'
 
-const app = combineReducers(reducers)
-
 const reduxRouterMiddleware = syncHistory(hashHistory)
 
-const store = compose(
-  applyMiddleware(thunk),
-  applyMiddleware(reduxRouterMiddleware),
-  DevTools.instrument(),
-  persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
-)(createStore)(app)
+const store = createStore(
+  combineReducers(reducers),
+  compose(
+    applyMiddleware(thunk),
+    applyMiddleware(reduxRouterMiddleware),
+    DevTools.instrument(),
+    persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
+  )
+)
 
 reduxRouterMiddleware.listenForReplays(store)
 
