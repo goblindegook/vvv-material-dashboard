@@ -1,3 +1,5 @@
+import pick from 'lodash/pick'
+import Immutable from 'immutable'
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import LoadingIndicator from '../components/LoadingIndicator'
@@ -8,23 +10,27 @@ import Theme from '../theme'
 const Sites = React.createClass({
 
   propTypes: {
-    isWaiting: PropTypes.bool,
-    query:     PropTypes.string,
-    sites:     PropTypes.arrayOf(PropTypes.object),
+    services: React.PropTypes.instanceOf(Immutable.Map),
+    sites:    React.PropTypes.instanceOf(Immutable.Map),
   },
 
   componentDidMount() {
-    if (!this.props.sites.length) {
+    if (!this.props.sites.get('sites').count()) {
       this.props.dispatch(SiteActions.fetchSites())
     }
   },
 
   render() {
+    const props = Object.assign({},
+      this.props.services.toJS(),
+      this.props.sites.toJS()
+    )
+
     return (
       <div>
-        <LoadingIndicator {...this.props} />
-        <SiteList {...this.props}
-          xdebug={this.props.services.xdebug && this.props.services.xdebug.enabled}
+        <LoadingIndicator {...props} />
+        <SiteList {...props}
+          xdebug={props.services.xdebug && props.services.xdebug.enabled}
           onSearch={event => this.props.dispatch(SiteActions.searchSites(event.target.value))}
         />
       </div>
@@ -32,9 +38,6 @@ const Sites = React.createClass({
   },
 })
 
-const selector = state => Object.assign({},
-  state.services.toJS(),
-  state.sites.toJS()
-)
+const selector = state => pick(state, ['services', 'sites'])
 
 export default connect(selector)(Sites)

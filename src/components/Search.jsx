@@ -1,12 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
-import MUI from 'material-ui'
+import { Paper, TextField } from 'material-ui'
 import ActionSearch from 'material-ui/lib/svg-icons/action/search'
-
-const {
-  TextField,
-  Paper,
-} = MUI
 
 const Search = props => (
   <Paper style={Object.assign({}, styles.search, props.containerStyle)} zDepth={1}>

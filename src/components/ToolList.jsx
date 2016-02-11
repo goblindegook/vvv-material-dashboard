@@ -1,16 +1,10 @@
 import React, { PropTypes } from 'react'
-import MUI from 'material-ui'
+import { List, ListItem, SvgIcon } from 'material-ui'
 import ActionInfo from 'material-ui/lib/svg-icons/action/info'
 import ContentMail from 'material-ui/lib/svg-icons/content/mail'
 import IconDatabase from './icons/IconDatabase'
 import IconOpcache from './icons/IconOpcache'
 import IconProfiler from './icons/IconProfiler'
-
-const {
-  List,
-  ListItem,
-  SvgIcon,
-} = MUI
 
 const ToolList = props => (
   <List subheader='Tools'>

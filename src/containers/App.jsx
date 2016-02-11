@@ -1,5 +1,7 @@
-import throttle from 'lodash/throttle'
 import isEmpty from 'lodash/isEmpty'
+import pick from 'lodash/pick'
+import throttle from 'lodash/throttle'
+import Immutable from 'immutable'
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { routeActions } from 'redux-simple-router'
@@ -40,10 +42,9 @@ const App = React.createClass({
   },
 
   propTypes: {
+    app:      React.PropTypes.instanceOf(Immutable.Map),
     children: React.PropTypes.node,
-    height:   React.PropTypes.number,
-    services: React.PropTypes.object,
-    width:    React.PropTypes.number,
+    services: React.PropTypes.instanceOf(Immutable.Map),
   },
 
   /**
@@ -64,8 +65,8 @@ const App = React.createClass({
   componentDidMount() {
     this.props.dispatch(getServiceStatus())
 
-    if (!this.serviceRefreshInterval) {
-      this.serviceRefreshInterval = setInterval(() => {
+    if (!this._serviceRefreshInterval) {
+      this._serviceRefreshInterval = setInterval(() => {
         this.props.dispatch(getServiceStatus())
       }, 30000)
     }
@@ -81,7 +82,7 @@ const App = React.createClass({
    * End cmponent lifecycle.
    */
   componentWillUnmount() {
-    clearInterval(this.serviceRefreshInterval)
+    clearInterval(this._serviceRefreshInterval)
     removeEventListener('resize', this._resizeWindow)
   },
 
@@ -89,6 +90,11 @@ const App = React.createClass({
    * Renders the application.
    */
   render() {
+    const props = Object.assign({},
+      this.props.app.toJS(),
+      this.props.services.toJS()
+    )
+
     return (
       <AppCanvas>
         <AppBar
@@ -110,21 +116,21 @@ const App = React.createClass({
           }
         />
         <div style={Object.assign({}, styles.root,
-          this.props.width >= 992 && styles.large.root
+          props.width >= 992 && styles.large.root
         )}>
           <section style={styles.content}>
             {this.props.children}
           </section>
           <aside style={Object.assign({}, styles.sidebar,
-            this.props.width >= 992 && styles.large.sidebar
+            props.width >= 992 && styles.large.sidebar
           )}>
             <Paper style={styles.box}>
               <ToolList />
             </Paper>
             <Paper style={styles.box}>
               <ServiceList
-                isWaiting={isEmpty(this.props.services)}
-                services={this.props.services}
+                isWaiting={isEmpty(props.services)}
+                services={props.services}
                 onServiceToggle={(service, toggled) => {
                   this.props.dispatch(setServiceStatus(service, toggled ? 'on' : 'off'))
                 }}
@@ -172,9 +178,6 @@ const styles = {
   }
 }
 
-const selector = state => Object.assign({},
-  state.app.toJS(),
-  state.services.toJS()
-)
+const selector = state => pick(state, ['app', 'services'])
 
 export default connect(selector)(App)

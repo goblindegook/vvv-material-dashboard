@@ -1,13 +1,8 @@
 import React from 'react'
 import { render } from 'react-dom'
-import MUI from 'material-ui'
+import { List } from 'material-ui'
 import Search from './Search'
 import Site from './Site'
-
-const {
-  GridList,
-  List,
-} = MUI
 
 function filterSites(sites, query) {
   return sites
