@@ -9,9 +9,9 @@
     "build:backend": "composer install",
     "build:frontend": "cross-env NODE_ENV=production UV_THREADPOOL_SIZE=100 webpack --config webpack.config.prod.js",
     "clean": "rimraf dist",
-    "lint": "eslint src",
     "rebuild": "npm run clean && npm run build",
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "eslint src"
   },
   "homepage": "https://github.com/goblindegook/vvv-material-dashboard",
   "repository": {

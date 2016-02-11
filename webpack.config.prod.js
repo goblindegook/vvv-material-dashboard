@@ -1,9 +1,9 @@
-require('es6-promise').polyfill();
+require('es6-promise').polyfill()
 
-var path              = require('path');
-var webpack           = require('webpack');
-var autoprefixer      = require('autoprefixer');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var path              = require('path')
+var webpack           = require('webpack')
+var autoprefixer      = require('autoprefixer')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   context: __dirname,
@@ -52,4 +52,4 @@ module.exports = {
       }
     ]
   }
-};
+}
