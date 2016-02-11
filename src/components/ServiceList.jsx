@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
 import { List } from 'material-ui'
 import LoadingIndicator from './LoadingIndicator'
 import Service from './Service'
@@ -25,7 +24,5 @@ ServiceList.propTypes = {
   onServiceToggle: React.PropTypes.func,
   services:        React.PropTypes.object,
 }
-
-ServiceList.mixins = [PureRenderMixin]
 
 export default ServiceList

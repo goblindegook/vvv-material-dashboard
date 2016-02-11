@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
 import MUI from 'material-ui'
 
 const {
@@ -8,8 +7,6 @@ const {
 } = MUI
 
 const About = React.createClass({
-
-  mixins: [PureRenderMixin],
 
   render() {
     return (

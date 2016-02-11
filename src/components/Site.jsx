@@ -1,6 +1,5 @@
 import React from 'react'
 import { render } from 'react-dom'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
 import MUI from 'material-ui'
 import Highlight from 'react-highlighter'
 import WordPressIcon from '../images/wordpress.png'
@@ -82,8 +81,6 @@ const Site = props => {
     </Card>
   )
 }
-
-Site.mixins = [PureRenderMixin]
 
 Site.propTypes = {
   key:    React.PropTypes.string,

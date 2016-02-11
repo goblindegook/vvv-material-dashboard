@@ -1,31 +1,16 @@
-import _ from 'lodash'
+import throttle from 'lodash/throttle'
+import isEmpty from 'lodash/isEmpty'
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { routeActions } from 'redux-simple-router'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
-import TimerMixin from 'react-timer-mixin'
-import MUI from 'material-ui'
+import { AppBar, AppCanvas, Paper, Styles, Tabs, Tab } from 'material-ui'
 import ThemeManager from 'material-ui/lib/styles/theme-manager'
 import SiteList from '../components/SiteList'
 import ToolList from '../components/ToolList'
 import ServiceList from '../components/ServiceList'
+import { resizeWindow } from '../actions/app'
 import { getServiceStatus, setServiceStatus } from '../actions/services'
 import Theme from '../theme'
-
-const {
-  AppBar,
-  AppCanvas,
-  Mixins,
-  Paper,
-  Styles,
-  Tabs,
-  Tab,
-} = MUI
-
-const {
-  StylePropable,
-  StyleResizable,
-} = Mixins
 
 const {
   Colors,
@@ -55,17 +40,11 @@ const App = React.createClass({
   },
 
   propTypes: {
-    children:  React.PropTypes.node,
-    isWaiting: React.PropTypes.bool,
-    services:  React.PropTypes.object,
+    children: React.PropTypes.node,
+    height:   React.PropTypes.number,
+    services: React.PropTypes.object,
+    width:    React.PropTypes.number,
   },
-
-  mixins: [
-    PureRenderMixin,
-    StylePropable,
-    StyleResizable,
-    TimerMixin,
-  ],
 
   /**
    * Applies custom theme to application.
@@ -78,14 +57,32 @@ const App = React.createClass({
   },
 
   /**
-   * Gets VVV service status on start.
+   * Start component lifecycle.
+   *
+   * Gets VVV service status on start and every 30 seconds.
    */
   componentDidMount() {
     this.props.dispatch(getServiceStatus())
 
-    this.setInterval(() => {
-      this.props.dispatch(getServiceStatus())
-    }, 30000)
+    if (!this.serviceRefreshInterval) {
+      this.serviceRefreshInterval = setInterval(() => {
+        this.props.dispatch(getServiceStatus())
+      }, 30000)
+    }
+
+    this._resizeWindow = throttle(() => {
+      this.props.dispatch(resizeWindow(window.innerWidth, window.innerHeight))
+    }, 1000/60)
+
+    addEventListener('resize', this._resizeWindow)
+  },
+
+  /**
+   * End cmponent lifecycle.
+   */
+  componentWillUnmount() {
+    clearInterval(this.serviceRefreshInterval)
+    removeEventListener('resize', this._resizeWindow)
   },
 
   /**
@@ -99,32 +96,34 @@ const App = React.createClass({
           showMenuIconButton={false}
           zDepth={2}
           onTitleTouchTap={() => this.props.dispatch(routeActions.push('/sites'))}
-          style={styles.appbar}
+          iconStyleRight={styles.tabs}
           iconElementRight={
-            <Tabs>{appTabs.map(tab => (
-              // TODO: Set to active when current route equals tab.route
-              <Tab {...tab}
-                onActive={() => this.props.dispatch(routeActions.push(tab.route))}
-                style={styles.tab}
-              />
-            ))}</Tabs>
+            <Tabs>
+              {appTabs.map(tab => (
+                // TODO: Set to active when current route equals tab.route
+                <Tab {...tab}
+                  onActive={() => this.props.dispatch(routeActions.push(tab.route))}
+                  style={styles.tab}
+                />
+              ))}
+            </Tabs>
           }
         />
         <div style={Object.assign({}, styles.root,
-          this.isDeviceSize(StyleResizable.statics.Sizes.LARGE) && styles.large.root
+          this.props.width >= 992 && styles.large.root
         )}>
           <section style={styles.content}>
             {this.props.children}
           </section>
           <aside style={Object.assign({}, styles.sidebar,
-            this.isDeviceSize(StyleResizable.statics.Sizes.LARGE) && styles.large.sidebar
+            this.props.width >= 992 && styles.large.sidebar
           )}>
             <Paper style={styles.box}>
               <ToolList />
             </Paper>
             <Paper style={styles.box}>
               <ServiceList
-                isWaiting={_.isEmpty(this.props.services)}
+                isWaiting={isEmpty(this.props.services)}
                 services={this.props.services}
                 onServiceToggle={(service, toggled) => {
                   this.props.dispatch(setServiceStatus(service, toggled ? 'on' : 'off'))
@@ -144,11 +143,9 @@ const styles = {
     backgroundColor: '#eee',
     display: 'flex',
     flexDirection: 'column',
-    padding: 16,
-    paddingTop: 88,
+    padding: '88px 16px 0',
   },
   appbar: {
-    position: 'fixed',
   },
   content: {
     flex: 3,
@@ -159,9 +156,11 @@ const styles = {
   box: {
     marginBottom: 16,
   },
+  tabs: {
+    margin: 0,
+  },
   tab: {
-    padding: 24,
-    paddingTop: 16,
+    minHeight: 64
   },
   large: {
     root: {
@@ -173,6 +172,9 @@ const styles = {
   }
 }
 
-const selector = state => state.services.toJS()
+const selector = state => Object.assign({},
+  state.app.toJS(),
+  state.services.toJS()
+)
 
 export default connect(selector)(App)

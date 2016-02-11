@@ -1,5 +1,6 @@
 .DS_Store
+.tern-port
+dist/
 node_modules/
 npm-debug.log
-dist/
 vendor/

@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
 import MUI from 'material-ui'
 import ActionInfo from 'material-ui/lib/svg-icons/action/info'
 import ContentMail from 'material-ui/lib/svg-icons/content/mail'
@@ -47,8 +46,6 @@ const ToolList = props => (
     />
   </List>
 )
-
-ToolList.mixins = [PureRenderMixin]
 
 ToolList.propTypes = {}
 

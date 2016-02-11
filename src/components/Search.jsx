@@ -1,6 +1,5 @@
 import React from 'react'
 import { render } from 'react-dom'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
 import MUI from 'material-ui'
 import ActionSearch from 'material-ui/lib/svg-icons/action/search'
 
@@ -27,8 +26,6 @@ Search.propTypes = {
   placeholder:    React.PropTypes.string,
   value:          React.PropTypes.string,
 }
-
-Search.mixins = [PureRenderMixin]
 
 const styles = {
   search: {

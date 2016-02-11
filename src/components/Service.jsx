@@ -1,6 +1,5 @@
 import React from 'react'
 import { render } from 'react-dom'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
 import { ListItem, Toggle } from 'material-ui'
 import * as ServiceActions from '../actions/services'
 
@@ -23,7 +22,5 @@ Service.propTypes = {
   locked:          React.PropTypes.bool,
   onServiceToggle: React.PropTypes.func,
 }
-
-Service.mixins = [PureRenderMixin]
 
 export default Service

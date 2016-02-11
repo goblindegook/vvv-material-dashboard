@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
 import LoadingIndicator from '../components/LoadingIndicator'
 import SiteList from '../components/SiteList'
 import * as SiteActions from '../actions/sites'
@@ -13,8 +12,6 @@ const Sites = React.createClass({
     query:     PropTypes.string,
     sites:     PropTypes.arrayOf(PropTypes.object),
   },
-
-  mixins: [PureRenderMixin],
 
   componentDidMount() {
     if (!this.props.sites.length) {

@@ -1,5 +1,4 @@
 import fetch from 'isomorphic-fetch'
-import _ from 'lodash'
 
 export const ActionTypes = {
   REQUEST_SERVICE_STATUS:       'REQUEST_SERVICE_STATUS',
