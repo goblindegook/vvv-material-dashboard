@@ -2,8 +2,8 @@ import Immutable from 'immutable'
 import { ActionTypes } from '../actions/services'
 
 const initialState = Immutable.fromJS({
-  isWaiting: false,
-  services: {},
+  isWaiting:   false,
+  serviceList: {},
 })
 
 function services(state = initialState, action) {

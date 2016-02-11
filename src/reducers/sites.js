@@ -4,7 +4,7 @@ import { ActionTypes } from '../actions/sites'
 const initialState = Immutable.fromJS({
   isWaiting: false,
   query:     null,
-  sites:     [],
+  siteList:  [],
 })
 
 function sites(state = initialState, action) {
@@ -13,8 +13,8 @@ function sites(state = initialState, action) {
 
     case ActionTypes.REQUEST_SITES:
       return state.merge({
-        isWaiting: true,
-        sites:     [],
+        isWaiting:   true,
+        serviceList: [],
       })
 
     case ActionTypes.RECEIVE_SITES:
@@ -26,8 +26,8 @@ function sites(state = initialState, action) {
     case ActionTypes.RECEIVE_SITES_ERROR:
       return state.merge({
         ...action.payload,
-        isWaiting: false,
-        sites:     [],
+        isWaiting:   false,
+        serviceList: [],
       })
 
     case ActionTypes.SEARCH_SITES:

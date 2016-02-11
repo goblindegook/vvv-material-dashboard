@@ -12,10 +12,10 @@ export function requestServiceStatus() {
   }
 }
 
-export function receiveServiceStatus(services) {
+export function receiveServiceStatus(serviceList) {
   return {
     type:    ActionTypes.RECEIVE_SERVICE_STATUS,
-    payload: { services },
+    payload: { serviceList },
   }
 }
 
@@ -34,9 +34,9 @@ export function getServiceStatus(service = '') {
     dispatch(requestServiceStatus())
 
     try {
-      const response = await fetch(url)
-      const services = await response.json()
-      dispatch(receiveServiceStatus(services))
+      const response    = await fetch(url)
+      const serviceList = await response.json()
+      dispatch(receiveServiceStatus(serviceList))
     } catch(error) {
       dispatch(receiveServiceStatusError(error))
     }
@@ -50,9 +50,9 @@ export function setServiceStatus(service = '', status = '') {
     dispatch(requestServiceStatus())
 
     try {
-      const response = await fetch(url, {method: 'put'})
-      const services = await response.json()
-      dispatch(receiveServiceStatus(services))
+      const response    = await fetch(url, {method: 'put'})
+      const serviceList = await response.json()
+      dispatch(receiveServiceStatus(serviceList))
     } catch(error) {
       dispatch(receiveServiceStatusError(error))
     }

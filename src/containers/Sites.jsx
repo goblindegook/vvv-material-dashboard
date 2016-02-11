@@ -15,22 +15,25 @@ const Sites = React.createClass({
   },
 
   componentDidMount() {
-    if (!this.props.sites.get('sites').count()) {
+    if (!this.props.sites.get('siteList').size) {
       this.props.dispatch(SiteActions.fetchSites())
     }
   },
 
   render() {
-    const props = Object.assign({},
-      this.props.services.toJS(),
-      this.props.sites.toJS()
-    )
+    const state = {
+      services: this.props.services.toJS(),
+      sites:    this.props.sites.toJS(),
+    }
 
     return (
       <div>
-        <LoadingIndicator {...props} />
-        <SiteList {...props}
-          xdebug={props.services.xdebug && props.services.xdebug.enabled}
+        <LoadingIndicator isWaiting={state.sites.isWaiting} />
+        <SiteList
+          isWaiting={state.sites.isWaiting}
+          query={state.sites.query}
+          sites={state.sites.siteList}
+          xdebug={state.services.serviceList.xdebug && state.services.serviceList.xdebug.enabled}
           onSearch={event => this.props.dispatch(SiteActions.searchSites(event.target.value))}
         />
       </div>

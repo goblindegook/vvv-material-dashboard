@@ -90,10 +90,10 @@ const App = React.createClass({
    * Renders the application.
    */
   render() {
-    const props = Object.assign({},
-      this.props.app.toJS(),
-      this.props.services.toJS()
-    )
+    const state = {
+      app:      this.props.app.toJS(),
+      services: this.props.services.toJS(),
+    }
 
     return (
       <AppCanvas>
@@ -116,21 +116,21 @@ const App = React.createClass({
           }
         />
         <div style={Object.assign({}, styles.root,
-          props.width >= 992 && styles.large.root
+          state.app.width >= 992 && styles.large.root
         )}>
           <section style={styles.content}>
             {this.props.children}
           </section>
           <aside style={Object.assign({}, styles.sidebar,
-            props.width >= 992 && styles.large.sidebar
+            state.app.width >= 992 && styles.large.sidebar
           )}>
             <Paper style={styles.box}>
               <ToolList />
             </Paper>
             <Paper style={styles.box}>
               <ServiceList
-                isWaiting={isEmpty(props.services)}
-                services={props.services}
+                isWaiting={isEmpty(state.services.serviceList)}
+                services={state.services.serviceList}
                 onServiceToggle={(service, toggled) => {
                   this.props.dispatch(setServiceStatus(service, toggled ? 'on' : 'off'))
                 }}

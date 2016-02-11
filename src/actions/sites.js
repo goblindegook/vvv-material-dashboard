@@ -13,10 +13,10 @@ export function requestSites() {
   }
 }
 
-export function receiveSites(sites) {
+export function receiveSites(siteList) {
   return {
     type:    ActionTypes.RECEIVE_SITES,
-    payload: { sites },
+    payload: { siteList },
   }
 }
 
@@ -41,8 +41,8 @@ export function fetchSites() {
 
     try {
       const response = await fetch('http://vvv/api/v1/sites')
-      const sites    = await response.json()
-      dispatch(receiveSites(sites))
+      const siteList = await response.json()
+      dispatch(receiveSites(siteList))
     } catch(error) {
       dispatch(receiveSitesError(error))
     }
