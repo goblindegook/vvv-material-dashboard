@@ -1,5 +1,10 @@
 # Changelog
 
+## [unreleased] -- February 13, 2016
+
+* Removed reliance on component mixins as they will become deprecated.
+* `redux-simple-router` dependency renamed to `react-router-redux`.
+
 ## [1.1.2] -- January 17, 2016
 
 * Replace `redux-router` with the "official" `redux-simple-router`.

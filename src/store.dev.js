@@ -1,7 +1,7 @@
 import { Iterable } from 'immutable'
 import { compose, createStore, combineReducers, applyMiddleware } from 'redux'
 import { hashHistory } from 'react-router'
-import { syncHistory } from 'redux-simple-router'
+import { syncHistory } from 'react-router-redux'
 import { persistState } from 'redux-devtools'
 import thunk from 'redux-thunk'
 import reducers from './reducers'

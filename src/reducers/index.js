@@ -1,4 +1,4 @@
-import { routeReducer } from 'redux-simple-router'
+import { routeReducer } from 'react-router-redux'
 import app from './app.js'
 import sites from './sites.js'
 import services from './services.js'
