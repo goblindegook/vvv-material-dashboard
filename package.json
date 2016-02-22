@@ -50,7 +50,7 @@
     "cross-env": "^1.0.1",
     "css-loader": "^0.23.1",
     "es6-promise": "^3.0.2",
-    "eslint": "^2.1.0",
+    "eslint": "^2.2.0",
     "eslint-plugin-babel": "^3.0.0",
     "eslint-plugin-react": "^3.11.3",
     "express": "^4.13.3",
